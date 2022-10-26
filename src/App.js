@@ -16,10 +16,9 @@ function App() {
   function handleKeyUp(event) {
     // debugger
     let pattern = /[0-9]/g
-    if (!pattern.test(event.key)){
+    if (!pattern.test(event.key)) {
       let inputCep = document.getElementById('searchInputCEP')
-      const replaceOf = input.replace(pattern, '')
-      inputCep.value = inputCep.value.replace(replaceOf, '');
+      inputCep.value = inputCep.value.replace(/\D/g, '');
     }
     if (input.length === 8 || event.key === 'Enter') {
       handleSearch();
@@ -53,7 +52,7 @@ function App() {
     <div className="general">
       <h1 className="title"> Buscador CEP</h1>
 
-      <div><Toaster/></div>
+      <div><Toaster /></div>
 
       <div className="input">
         <input

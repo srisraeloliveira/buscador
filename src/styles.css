@@ -28,6 +28,13 @@
     color: white;
     outline: none;
     margin-right: 8px;
+    text-align: center;
+}
+
+.input input::-webkit-outer-spin-button,
+.input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .input input::placeholder {
@@ -56,9 +63,9 @@
     background-color: white;
     width: 500px;
     border-radius: 8px;
+    padding: 10px 0;
 }
 .main h2{
-    margin: 10px 0;
     font-size: 40px;
     font-weight: bold;
 }
