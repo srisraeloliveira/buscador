@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import { TbMapSearch } from "react-icons/tb";
 import "./styles.css";
 import api from "./services/api";
@@ -7,20 +8,44 @@ function App() {
   const [input, setInput] = useState("");
   const [cep, setCep] = useState({});
 
-  async function handleSearch() {
-    //06018080/json/
+  useEffect(() => {
+    // Coloca o cursor no campo input CEP
+    document.getElementById('searchInputCEP').focus();
+  });
 
-    if (input === "") {
-      alert("Preencha algum CEP");
-      return;
+  function handleKeyUp(event) {
+    // debugger
+    let pattern = /[0-9]/g
+    if (!pattern.test(event.key)){
+      let inputCep = document.getElementById('searchInputCEP')
+      const replaceOf = input.replace(pattern, '')
+      inputCep.value = inputCep.value.replace(replaceOf, '');
     }
+    if (input.length === 8 || event.key === 'Enter') {
+      handleSearch();
+    }
+  }
+  async function handleSearch() {
     try {
-      const response = await api.get(`${input}/json`);
-      setCep(response.data);
-      setInput("");
+      //debugger
+      if (input === "") {
+        throw new Error("Preencha algum CEP");
+      }
 
-    } catch {
-      alert("ops, CEP não existente");
+      const response = await api.get(`${input}/json`);
+
+      if (response && !response.data.erro) {
+        setCep(response.data);
+        setInput("")
+        toast.success('Encontramos seu CEP 🎉', {
+          icon: '🎉',
+        });;
+      }
+      else {
+        throw new Error("Não foi possível consultar o CEP");
+      }
+    } catch (e) {
+      toast.error(e.message);
       setInput("");
     }
   }
@@ -28,12 +53,18 @@ function App() {
     <div className="general">
       <h1 className="title"> Buscador CEP</h1>
 
+      <div><Toaster/></div>
+
       <div className="input">
         <input
+          id="searchInputCEP"
           type="text"
           placeholder="Digite seu CEP"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyUp={handleKeyUp}
+          maxLength="8"
+          min="0"
         />
 
         <button className="buttonSearch" onClick={handleSearch}>
@@ -46,7 +77,7 @@ function App() {
           <h2>CEP:{cep.cep}</h2>
           <span>{cep.logradouro}</span>
           <span>{cep.bairro}</span>
-          <span>{cep.localidade} / {cep.uf}</span> 
+          <span>{cep.localidade} / {cep.uf}</span>
         </main>
       )}
     </div>
