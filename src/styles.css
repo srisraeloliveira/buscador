@@ -94,3 +94,15 @@
         min-height: 250px;
     }
 }
+
+@media (max-width: 320px){
+    h1.title{
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 190px){
+    h1.title{
+        font-size: 1.5em;
+    }
+}
