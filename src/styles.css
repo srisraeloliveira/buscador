@@ -82,7 +82,7 @@
     }
 }
 
-@media (max-width:620px){
+@media (max-width:620px) and (min-width: 420px){
     .title{
         font-size: 60px;
     }
@@ -95,7 +95,7 @@
     }
 }
 
-@media (max-width: 320px){
+@media (max-width: 420px){
     h1.title{
         font-size: 2em;
     }
