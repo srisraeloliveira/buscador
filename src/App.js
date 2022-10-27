@@ -61,6 +61,7 @@ function App() {
           placeholder="Digite seu CEP"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyUp}
           onKeyUp={handleKeyUp}
           maxLength="8"
           min="0"
